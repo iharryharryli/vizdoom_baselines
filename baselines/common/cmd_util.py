@@ -18,6 +18,8 @@ from baselines.common.vec_env.subproc_vec_env import SubprocVecEnv
 from baselines.common.vec_env.dummy_vec_env import DummyVecEnv
 from baselines.common import retro_wrappers
 
+from baselines.vizdoom.vizdoom_env import ViZDoomENV
+
 def make_vec_env(env_id, env_type, num_env, seed, wrapper_kwargs=None, start_index=0, reward_scale=1.0, gamestate=None):
     """
     Create a wrapped, monitored SubprocVecEnv for Atari and MuJoCo.
@@ -45,6 +47,11 @@ def make_vec_env(env_id, env_type, num_env, seed, wrapper_kwargs=None, start_ind
 
 def make_env(env_id, env_type, subrank=0, seed=None, reward_scale=1.0, gamestate=None, wrapper_kwargs={}):
     mpi_rank = MPI.COMM_WORLD.Get_rank() if MPI else 0
+
+    if env_type == 'vizdoom':
+        env = ViZDoomENV(subrank)
+        return env
+
     if env_type == 'atari':
         env = make_atari(env_id)
     elif env_type == 'retro':

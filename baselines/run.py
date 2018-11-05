@@ -49,6 +49,10 @@ _game_envs['retro'] = {
     'SpaceInvaders-Snes',
 }
 
+_game_envs['vizdoom'] = {
+    'health_gathering'
+}
+
 
 def train(args, extra_args):
     env_type, env_id = get_env_type(args.env)
@@ -131,7 +135,7 @@ def get_env_type(env_id):
 
 
 def get_default_network(env_type):
-    if env_type in {'atari', 'retro'}:
+    if env_type in {'atari', 'retro', 'vizdoom'}:
         return 'cnn'
     else:
         return 'mlp'
